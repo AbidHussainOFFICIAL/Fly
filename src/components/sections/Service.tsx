@@ -1,16 +1,18 @@
+import Link from "next/link";
 import {
   IoBusinessOutline,
   IoCalendarOutline,
   IoDiamondOutline,
   IoShieldCheckmarkOutline,
 } from "react-icons/io5";
+import { Reveal } from "@/components/motion/Reveal";
 import { Container } from "@/components/ui/Container";
 
 const services = [
-  { title: "Luxury & Comfort", Icon: IoDiamondOutline },
-  { title: "Safe & Secure", Icon: IoShieldCheckmarkOutline },
-  { title: "Personal Schedule", Icon: IoCalendarOutline },
-  { title: "Many Airports", Icon: IoBusinessOutline },
+  { title: "Luxury & Comfort", href: "/fleet", Icon: IoDiamondOutline },
+  { title: "Safe & Secure", href: "/faq", Icon: IoShieldCheckmarkOutline },
+  { title: "Personal Schedule", href: "/book", Icon: IoCalendarOutline },
+  { title: "Many Airports", href: "/flights", Icon: IoBusinessOutline },
 ];
 
 export function Service() {
@@ -22,23 +24,25 @@ export function Service() {
     >
       <Container>
         <ul className="grid gap-[30px] md:grid-cols-2 xl:grid-cols-4">
-          {services.map(({ title, Icon }) => (
+          {services.map(({ title, href, Icon }, index) => (
             <li key={title}>
-              <div className="group border border-vegas-gold p-[35px] transition-fast hocus-within:bg-white">
-                <Icon
-                  aria-hidden="true"
-                  className="mb-[20px] icon-stroke-20 text-[45px] text-phthalo-green-2 transition-fast group-hocus-within:scale-90 group-hocus-within:text-vegas-gold"
-                />
+              <Reveal delay={index * 0.1}>
+                <div className="group border border-vegas-gold p-[35px] transition-fast hocus-within:bg-white">
+                  <Icon
+                    aria-hidden="true"
+                    className="mb-[20px] icon-stroke-20 text-[45px] text-phthalo-green-2 transition-fast group-hocus-within:scale-90 group-hocus-within:text-vegas-gold"
+                  />
 
-                <h3>
-                  <a
-                    href="#"
-                    className="text-fs-6 text-white uppercase transition-fast group-hocus-within:text-phthalo-green-2"
-                  >
-                    {title}
-                  </a>
-                </h3>
-              </div>
+                  <h3>
+                    <Link
+                      href={href}
+                      className="text-fs-6 text-phthalo-green-1 uppercase transition-fast group-hocus-within:text-phthalo-green-2"
+                    >
+                      {title}
+                    </Link>
+                  </h3>
+                </div>
+              </Reveal>
             </li>
           ))}
         </ul>

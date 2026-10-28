@@ -1,30 +1,31 @@
 import Image from "next/image";
 import { IoCheckmarkOutline } from "react-icons/io5";
+import { Reveal } from "@/components/motion/Reveal";
 import { Button } from "@/components/ui/Button";
 import { SectionSubtitle } from "@/components/ui/SectionSubtitle";
 import { SectionTitle } from "@/components/ui/SectionTitle";
 
 const highlights = [
-  "There are many variations of passage of lorem.",
-  "Available but the majority alteration.",
+  "Departures from Karachi, Lahore, Islamabad and Peshawar.",
+  "A dedicated flight coordinator for every charter.",
 ];
 
 export function About() {
   return (
     <section id="about" aria-label="about" className="py-[120px]">
       <div className="grid gap-[60px] px-[15px] sm:mx-auto sm:w-full sm:max-w-[540px] md:max-w-[600px] xl:max-w-[1200px] xl:grid-cols-2">
-        <div>
+        <Reveal>
           <SectionSubtitle>Get To Know Us</SectionSubtitle>
 
           <SectionTitle className="mb-[30px]">
-            Our fly save your time and give you comfort in flights
+            Private flights that save your time and give you comfort
           </SectionTitle>
 
           <p>
-            Non augue egestas, commodo velit eget, vestibulum tellus. curabitur
-            vulputate justo elit, at elementum orci pulvinar vel. pellentesque
-            habitant morbi tristique. pellentesque habitant morbi tristique. ut
-            non augue egestas, commodo velit eget, vestibulum tellus.
+            Fly connects Pakistan&rsquo;s major cities with on-demand private
+            charters. Skip the queues, board minutes before departure and fly on
+            your own schedule, with a coordinator who looks after every detail
+            from booking to landing.
           </p>
 
           <ul className="mt-[30px] mb-[40px]">
@@ -43,21 +44,23 @@ export function About() {
             ))}
           </ul>
 
-          <Button href="#" variant="primary">
+          <Button href="/book" variant="primary">
             Book Now
           </Button>
-        </div>
+        </Reveal>
 
-        <figure className="aspect-[470/550] overflow-hidden bg-light-gray shadow-[-40px_60px_0_-20px_var(--color-phthalo-green-3)] xl:mx-[50px]">
-          <Image
-            src="/images/about-banner.jpg"
-            width={470}
-            height={550}
-            sizes="(min-width: 1200px) 455px, (min-width: 768px) 600px, 100vw"
-            alt="about banner"
-            className="h-full w-full object-cover"
-          />
-        </figure>
+        <Reveal delay={0.15}>
+          <figure className="aspect-[470/550] overflow-hidden bg-light-gray shadow-[-40px_60px_0_-20px_var(--color-phthalo-green-3)] xl:mx-[50px]">
+            <Image
+              src="/images/about-banner.jpg"
+              width={470}
+              height={550}
+              sizes="(min-width: 1200px) 455px, (min-width: 768px) 600px, 100vw"
+              alt="Two cabin crew members in uniform standing beside an aircraft"
+              className="h-full w-full object-cover"
+            />
+          </figure>
+        </Reveal>
       </div>
     </section>
   );

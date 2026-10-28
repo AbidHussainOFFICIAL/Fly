@@ -36,6 +36,7 @@
   --color-vegas-gold: hsl(48, 40%, 51%);
   --color-medium-champagne: hsl(49, 63%, 81%);
   --color-light-gray: hsl(0, 0%, 80%);
+  --color-error: hsl(0, 100%, 80%);
 
   --text-fs-1: 4.3rem;
   --text-fs-2: 3.4rem;
@@ -166,6 +167,11 @@
     font-style: normal;
   }
 
+  /* Keeps anchor targets clear of the fixed header */
+  [id] {
+    scroll-margin-top: 10rem;
+  }
+
   :focus-visible {
     outline-offset: 4px;
   }
@@ -184,5 +190,20 @@
 
   ::-webkit-scrollbar-thumb:hover {
     background-color: hsl(0, 0%, 70%);
+  }
+}
+
+/* Respect the OS "reduce motion" setting (no effect for everyone else) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

@@ -3,7 +3,8 @@ import type { ReactNode } from "react";
 
 interface SectionSubtitleProps {
   children: ReactNode;
-  tone?: "gold" | "champagne";
+  /** "gold" on dark backgrounds, "dark" on the gold background. */
+  tone?: "gold" | "dark";
 }
 
 export function SectionSubtitle({
@@ -14,7 +15,7 @@ export function SectionSubtitle({
     <p
       className={clsx(
         "mb-[5px] font-semibold tracking-[2px] uppercase",
-        tone === "gold" ? "text-satin-sheen-gold" : "text-medium-champagne",
+        tone === "gold" ? "text-satin-sheen-gold" : "text-phthalo-green-1",
       )}
     >
       {children}

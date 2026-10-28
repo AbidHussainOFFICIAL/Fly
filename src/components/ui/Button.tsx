@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 export type ButtonVariant =
@@ -9,9 +10,9 @@ const base =
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "bg-satin-sheen-gold py-[20px] text-white hocus:bg-white hocus:text-satin-sheen-gold",
+    "bg-satin-sheen-gold py-[20px] text-phthalo-green-1 hocus:bg-white hocus:text-phthalo-green-1",
   secondary:
-    "bg-white py-[20px] text-phthalo-green-1 hocus:bg-satin-sheen-gold hocus:text-white",
+    "bg-white py-[20px] text-phthalo-green-1 hocus:bg-satin-sheen-gold hocus:text-phthalo-green-1",
   feature:
     "bg-white py-[20px] text-phthalo-green-1 hocus:bg-phthalo-green-2 hocus:text-white",
   offer:
@@ -38,8 +39,8 @@ export function Button({
   children,
 }: ButtonProps) {
   return (
-    <a href={href} className={buttonClasses(variant, className)}>
+    <Link href={href} className={buttonClasses(variant, className)}>
       {children}
-    </a>
+    </Link>
   );
 }

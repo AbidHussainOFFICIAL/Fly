@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   IoCall,
   IoLocation,
@@ -9,36 +10,52 @@ import {
 } from "react-icons/io5";
 import { Container } from "@/components/ui/Container";
 import { Logo } from "@/components/ui/Logo";
+import { siteConfig } from "@/lib/site";
 
 const linkColumns = [
   {
     title: "Explore",
     links: [
-      "About",
-      "Private Jet Catering",
-      "Destinations",
-      "Flight Search",
-      "Book Flight",
+      { label: "About", href: "/#about" },
+      { label: "Flights", href: "/flights" },
+      { label: "Fleet", href: "/fleet" },
+      { label: "Book a Flight", href: "/book" },
     ],
   },
   {
     title: "Links",
-    links: ["Terms of Use", "Contact", "News & Press", "Games", "FAQs"],
+    links: [
+      { label: "Terms of Use", href: "/terms" },
+      { label: "Contact", href: "/contact" },
+      { label: "News & Press", href: "/news" },
+      { label: "FAQs", href: "/faq" },
+    ],
   },
 ];
 
 const socials = [
-  { label: "Twitter", Icon: IoLogoTwitter },
-  { label: "Facebook", Icon: IoLogoFacebook },
-  { label: "Pinterest", Icon: IoLogoPinterest },
-  { label: "Instagram", Icon: IoLogoInstagram },
+  { label: "Twitter", href: siteConfig.socials.twitter, Icon: IoLogoTwitter },
+  {
+    label: "Facebook",
+    href: siteConfig.socials.facebook,
+    Icon: IoLogoFacebook,
+  },
+  {
+    label: "Pinterest",
+    href: siteConfig.socials.pinterest,
+    Icon: IoLogoPinterest,
+  },
+  {
+    label: "Instagram",
+    href: siteConfig.socials.instagram,
+    Icon: IoLogoInstagram,
+  },
 ];
 
 const linkClasses = "mt-[5px] transition-fast hocus:text-white";
 const listTitleClasses = "mb-[15px] text-fs-6 font-bold text-white";
 const contactItemClasses = "mt-[12px] flex items-center gap-[5px]";
-const contactLinkClasses =
-  "text-fs-7 transition-fast hocus:text-satin-sheen-gold";
+const contactLinkClasses = "text-fs-7 transition-fast hocus:text-vegas-gold";
 
 export function Footer() {
   return (
@@ -54,67 +71,74 @@ export function Footer() {
           </div>
 
           {linkColumns.map(({ title, links }) => (
-            <ul key={title}>
-              <li>
-                <p className={listTitleClasses}>{title}</p>
-              </li>
+            <nav key={title} aria-label={title}>
+              <h2 className={listTitleClasses}>{title}</h2>
 
-              {links.map((label) => (
-                <li key={label}>
-                  <a href="#" className={linkClasses}>
-                    {label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+              <ul>
+                {links.map(({ label, href }) => (
+                  <li key={label}>
+                    <Link href={href} className={linkClasses}>
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
           ))}
 
-          <ul>
-            <li>
-              <p className={listTitleClasses}>Contact</p>
-            </li>
+          <div>
+            <h2 className={listTitleClasses}>Contact</h2>
 
-            <li className={contactItemClasses}>
-              <IoCall
-                aria-hidden="true"
-                className="shrink-0 text-satin-sheen-gold"
-              />
-              <a href="tel:+0123456780" className={contactLinkClasses}>
-                +01 ( 2345 ) - 6780
-              </a>
-            </li>
+            <ul>
+              <li className={contactItemClasses}>
+                <IoCall
+                  aria-hidden="true"
+                  className="shrink-0 text-satin-sheen-gold"
+                />
+                <a href={siteConfig.phone.href} className={contactLinkClasses}>
+                  {siteConfig.phone.display}
+                </a>
+              </li>
 
-            <li className={contactItemClasses}>
-              <IoMail
-                aria-hidden="true"
-                className="shrink-0 text-satin-sheen-gold"
-              />
-              <a href="mailto:fly@info.com" className={contactLinkClasses}>
-                fly@info.com
-              </a>
-            </li>
+              <li className={contactItemClasses}>
+                <IoMail
+                  aria-hidden="true"
+                  className="shrink-0 text-satin-sheen-gold"
+                />
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className={contactLinkClasses}
+                >
+                  {siteConfig.email}
+                </a>
+              </li>
 
-            <li className={contactItemClasses}>
-              <IoLocation
-                aria-hidden="true"
-                className="shrink-0 text-satin-sheen-gold"
-              />
-              <address className="text-fs-7">
-                30 broklyn golden street. New York
-              </address>
-            </li>
-          </ul>
+              <li className={contactItemClasses}>
+                <IoLocation
+                  aria-hidden="true"
+                  className="shrink-0 text-satin-sheen-gold"
+                />
+                <address className="text-fs-7">
+                  {siteConfig.address.street}, {siteConfig.address.city}
+                </address>
+              </li>
+            </ul>
+          </div>
         </div>
 
         <div className="border-t border-white/10 py-[30px] text-center md:flex md:items-center md:justify-between">
-          <p>Copyright {new Date().getFullYear()} by Abid Hussain.</p>
+          <p>
+            Copyright {new Date().getFullYear()} by {siteConfig.author}.
+          </p>
 
           <ul className="mt-[15px] flex justify-center gap-[10px] md:mt-0">
-            {socials.map(({ label, Icon }) => (
+            {socials.map(({ label, href, Icon }) => (
               <li key={label}>
                 <a
-                  href="#"
-                  aria-label={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} (opens in a new tab)`}
                   className="rounded-circle bg-british-racing-green p-[12px] text-white transition-fast hocus:bg-white hocus:text-satin-sheen-gold"
                 >
                   <Icon aria-hidden="true" />

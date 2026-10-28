@@ -11,13 +11,15 @@ next-env.d.ts
 
 # misc
 .DS_Store
+Thumbs.db
 *.pem
 
 # debug
 npm-debug.log*
 
-# env files
+# env files (the example file is tracked)
 .env*
+!.env.example
 
 # typescript
 *.tsbuildinfo

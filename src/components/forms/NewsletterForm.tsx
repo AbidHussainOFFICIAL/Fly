@@ -1,21 +1,19 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoAirplane } from "react-icons/io5";
 import { buttonClasses } from "@/components/ui/Button";
+import { simulateSubmit } from "@/lib/demo";
 import { newsletterSchema, type NewsletterValues } from "@/lib/schemas";
 
-type Status = "idle" | "success" | "error";
-
-const statusMessages: Record<Exclude<Status, "idle">, string> = {
-  success: "Thanks for subscribing!",
-  error: "Something went wrong. Please try again.",
-};
+const messageClasses =
+  "absolute top-full left-0 mt-[12px] text-fs-8 text-phthalo-green-1 md:mt-0";
 
 export function NewsletterForm() {
-  const [status, setStatus] = useState<Status>("idle");
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const errorId = useId();
 
   const {
     register,
@@ -24,41 +22,27 @@ export function NewsletterForm() {
     formState: { errors, isSubmitting },
   } = useForm<NewsletterValues>({ resolver: zodResolver(newsletterSchema) });
 
-  const onSubmit = async (values: NewsletterValues) => {
-    setStatus("idle");
-
-    try {
-      const response = await fetch("/api/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
-
-      if (!response.ok) throw new Error("Subscription failed");
-
-      reset();
-      setStatus("success");
-    } catch {
-      setStatus("error");
-    }
+  const onSubmit = async () => {
+    await simulateSubmit();
+    reset();
+    setIsSubscribed(true);
   };
-
-  const message =
-    errors.email?.message ??
-    (status === "idle" ? null : statusMessages[status]);
 
   return (
     <div className="relative">
       <form
         noValidate
         onSubmit={handleSubmit(onSubmit)}
+        onChange={() => setIsSubscribed(false)}
         className="md:relative"
       >
         <input
           type="email"
           placeholder="Enter email address"
           aria-label="Email address"
+          autoComplete="email"
           aria-invalid={errors.email ? true : undefined}
+          aria-describedby={errors.email ? errorId : undefined}
           className="mb-[20px] rounded-pill bg-white p-[23px] ps-[40px] text-black outline-none placeholder:text-[#757575]"
           {...register("email")}
         />
@@ -76,14 +60,13 @@ export function NewsletterForm() {
         </button>
       </form>
 
-      {message && (
-        <p
-          role="status"
-          className="absolute top-full left-0 mt-[12px] text-fs-8 text-white md:mt-0"
-        >
-          {message}
-        </p>
-      )}
+      <p id={errorId} role="alert" className={messageClasses}>
+        {errors.email?.message}
+      </p>
+
+      <p role="status" className={messageClasses}>
+        {isSubscribed ? "Thanks for subscribing!" : ""}
+      </p>
     </div>
   );
 }
