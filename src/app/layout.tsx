@@ -57,12 +57,14 @@ export default function RootLayout({
 
         <Header />
 
-        <main id="main-content" tabIndex={-1} className="outline-none">
-          <MotionProvider>{children}</MotionProvider>
-        </main>
+        <div id="page-content">
+          <main id="main-content" tabIndex={-1} className="outline-none">
+            <MotionProvider>{children}</MotionProvider>
+          </main>
 
-        <Footer />
-        <BackToTop />
+          <Footer />
+          <BackToTop />
+        </div>
 
         <noscript>
           <style>

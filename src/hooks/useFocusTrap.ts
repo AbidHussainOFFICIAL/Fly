@@ -3,14 +3,21 @@ import { useEffect, type RefObject } from "react";
 const focusableSelector =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+interface FocusTrapOptions {
+  /** Element to focus when the trap starts. Defaults to the first focusable one. */
+  initialFocusRef?: RefObject<HTMLElement | null>;
+  /** Return false to skip returning focus when the trap ends. Keep it stable (useCallback). */
+  shouldRestoreFocus?: () => boolean;
+}
+
 /**
- * While `active`, keeps Tab and Shift+Tab inside `containerRef`, moves focus
- * to `initialFocusRef` and returns focus to the previous element on close.
+ * While `active`, keeps Tab and Shift+Tab inside `containerRef` and, when the
+ * trap ends, returns focus to the element that had it before.
  */
 export function useFocusTrap(
   containerRef: RefObject<HTMLElement | null>,
   active: boolean,
-  initialFocusRef?: RefObject<HTMLElement | null>,
+  { initialFocusRef, shouldRestoreFocus }: FocusTrapOptions = {},
 ) {
   useEffect(() => {
     const container = containerRef.current;
@@ -46,7 +53,10 @@ export function useFocusTrap(
 
     return () => {
       document.removeEventListener("keydown", trapTab);
-      previouslyFocused?.focus({ preventScroll: true });
+
+      if (shouldRestoreFocus?.() ?? true) {
+        previouslyFocused?.focus({ preventScroll: true });
+      }
     };
-  }, [active, containerRef, initialFocusRef]);
+  }, [active, containerRef, initialFocusRef, shouldRestoreFocus]);
 }

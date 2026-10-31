@@ -11,7 +11,7 @@ const featuredFlights = flights.slice(0, 2);
 
 export function Flights() {
   return (
-    <section aria-label="private flight" className="py-[120px]">
+    <section id="flights" aria-label="private flight" className="py-[120px]">
       <Container>
         <ul className="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
           <li className="md:col-span-2 xl:col-auto">

@@ -5,10 +5,45 @@
    hocus        -> hover or focus (buttons, links)
    hocus-within -> hover or focus-within (cards)
    group-hocus-within -> same, driven by an ancestor with `.group`
+
+   Hover only applies on devices with a real pointer, so a tap on a phone
+   doesn't leave an element stuck in its hover state.
 ---------------------------------------------------------------- */
-@custom-variant hocus (&:is(:hover, :focus));
-@custom-variant hocus-within (&:is(:hover, :focus-within));
-@custom-variant group-hocus-within (&:is(:where(.group):is(:hover, :focus-within) *));
+@custom-variant hocus {
+  &:focus {
+    @slot;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+@custom-variant hocus-within {
+  &:focus-within {
+    @slot;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      @slot;
+    }
+  }
+}
+
+@custom-variant group-hocus-within {
+  &:is(:where(.group):focus-within *) {
+    @slot;
+  }
+
+  @media (hover: hover) {
+    &:is(:where(.group):hover *) {
+      @slot;
+    }
+  }
+}
 
 /* ---------------------------------------------------------------
    Design tokens (identical values to the original stylesheet)
@@ -57,6 +92,7 @@
 
   --animate-fly-move: flyMove 1.25s ease-in-out infinite alternate;
   --animate-slide-in-top: slideInTop 0.5s ease forwards;
+  --animate-fade-in: fadeIn 0.15s ease-out both;
 
   @keyframes flyMove {
     0% {
@@ -64,6 +100,15 @@
     }
     100% {
       transform: translate(-50%, 38%);
+    }
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
     }
   }
 
@@ -116,6 +161,66 @@
 
 @utility transition-slow {
   transition: 0.5s ease;
+}
+
+/* Buttons: colors fade in 150ms and a press shrinks the button 3% in 100ms */
+@utility press {
+  transition:
+    color 0.15s ease-out,
+    background-color 0.15s ease-out,
+    scale 0.1s ease-out;
+
+  &:active {
+    scale: 0.97;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:active {
+      scale: 1;
+    }
+  }
+}
+
+/* A modal that fades in over 150ms and out over 100ms. Pair it with
+   `open:flex` (not `flex`) so the closed dialog can stay display:none. */
+@utility fade-dialog {
+  opacity: 0;
+  transition:
+    opacity 0.1s ease-out,
+    display 0.1s allow-discrete,
+    overlay 0.1s allow-discrete;
+
+  &[open] {
+    opacity: 1;
+    transition-duration: 0.15s;
+
+    @starting-style {
+      opacity: 0;
+    }
+  }
+}
+
+/* Slim gold scrollbar for dark panels (the search results and the mobile menu) */
+@utility scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-satin-sheen-gold) transparent;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-satin-sheen-gold);
+    border-radius: var(--radius-pill);
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-vegas-gold);
+  }
 }
 
 /* Ionicons stroke width: <Icon className="icon-stroke-40" /> */
@@ -204,6 +309,8 @@
   ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 }

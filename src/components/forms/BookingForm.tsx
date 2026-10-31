@@ -26,8 +26,13 @@ const emptyValues: BookingValues = {
 };
 
 export function BookingForm() {
-  const flightSlug = useSearchParams().get("flight");
-  const flight = flights.find((item) => item.slug === flightSlug);
+  const searchParams = useSearchParams();
+  const flight = flights.find(
+    (item) => item.slug === searchParams.get("flight"),
+  );
+  const departure =
+    airports.find((airport) => airport.code === searchParams.get("from"))
+      ?.code ?? "";
   const [isSent, setIsSent] = useState(false);
 
   const {
@@ -45,7 +50,7 @@ export function BookingForm() {
           date: flight.date,
           passengers: String(flight.passengers),
         }
-      : emptyValues,
+      : { ...emptyValues, from: departure },
   });
 
   const onSubmit = async () => {

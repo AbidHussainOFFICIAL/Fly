@@ -45,13 +45,14 @@ src/
 ├── components/
 │   ├── flights/                  FlightCard
 │   ├── forms/                    NewsletterForm, ContactForm, BookingForm
-│   ├── layout/                   Header, SearchDialog, Footer, BackToTop
+│   ├── faq/                      FaqItem (opens when the address points to it)
+│   ├── layout/                   Header, NavLinks, SearchOverlay, Footer, BackToTop
 │   ├── motion/                   MotionProvider, Reveal (scroll animations)
 │   ├── sections/                 Home page sections
 │   └── ui/                       Button, Container, Field, JsonLd, Logo, PageHeader, Section*
 ├── data/                         Airports, flights, fleet, news, FAQ content
-├── hooks/                        useScrolledPast, useBodyScrollLock, useFocusTrap
-└── lib/                          Site config, metadata, structured data, schemas, formatting
+├── hooks/                        useScrolledPast, useScrollLatch, useBodyScrollLock, useFocusTrap, useInert, useActiveSection
+└── lib/                          Site config, metadata, structured data, schemas, search, formatting
 ```
 
 ## Notes
@@ -60,6 +61,8 @@ src/
 - **Forms are demos.** They validate with `react-hook-form` + `zod` and simulate a successful send (`src/lib/demo.ts`). Replace `simulateSubmit` with a real request when you connect a backend.
 - **SEO:** page titles use the template in `layout.tsx`; each page sets its own description and canonical URL through `createMetadata`. Structured data (business, flight prices, articles) is built from the data files in `src/lib/structured-data.ts`.
 - **Contact details** (phone, email, address, social links) are placeholders in `src/lib/site.ts`. Replace them with your own before launch, because they feed the structured data.
-- **Accessibility:** skip link, focus trap and focus return for the mobile menu, native `<dialog>` for search, and form errors linked to their inputs. Small text on the gold background uses dark green for contrast.
+- **Header and search:** the nav highlights the current page, and on the home page the section being viewed. Search is a full-screen native `<dialog>` that finds destinations, aircraft and FAQs. It opens from the header icon, `/` or Ctrl/Cmd+K, and its index is built from `src/data`, so new routes, aircraft and FAQs appear automatically.
+- **Accessibility:** skip link, a mobile menu that traps focus, makes the page behind it inert and returns focus on close, native `<dialog>` for search, and form errors linked to their inputs. Small text on the gold background uses dark green for contrast.
 - **Motion:** `<Reveal>` animates content on first scroll into view. It honors the system "reduce motion" setting and is skipped when JavaScript is off.
+- **Header and menu motion:** interface motion is kept at 300ms or less with ease-out. The drawer opens in 300ms and closes in 200ms, search fades in 150ms and out 100ms, hover colors take 150ms, and buttons shrink 3% while pressed (`press` utility in `globals.css`). Hover effects only apply on devices with a real pointer. The solid header appears after 100px of scrolling and fades back to transparent only when you return to the very top. On desktop one gold underline glides between the nav links (it follows the current page or section, previews the hovered or focused link and returns afterwards). In the mobile drawer the links fade in one after another, and the search suggestions fade in when the overlay opens.
 - **Design tokens** live in `src/app/globals.css` under `@theme`. The site uses `html { font-size: 10px }`, so `1rem = 10px`.

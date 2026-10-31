@@ -1,4 +1,4 @@
-import { IoChevronDown } from "react-icons/io5";
+import { FaqItem } from "@/components/faq/FaqItem";
 import { Container } from "@/components/ui/Container";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { faqs } from "@/data/faq";
@@ -21,18 +21,8 @@ export default function FaqPage() {
 
       <section aria-label="questions" className="py-[100px]">
         <Container className="mx-auto max-w-[820px]">
-          {faqs.map(({ question, answer }) => (
-            <details key={question} className="group border-b border-white/10">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-[20px] py-[22px] text-fs-6 font-semibold text-white transition-fast hocus:text-vegas-gold [&::-webkit-details-marker]:hidden">
-                {question}
-                <IoChevronDown
-                  aria-hidden="true"
-                  className="shrink-0 transition-fast group-open:rotate-180"
-                />
-              </summary>
-
-              <p className="pb-[25px]">{answer}</p>
-            </details>
+          {faqs.map((faq) => (
+            <FaqItem key={faq.id} {...faq} />
           ))}
         </Container>
       </section>

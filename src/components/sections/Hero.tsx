@@ -5,8 +5,9 @@ import { Container } from "@/components/ui/Container";
 export function Hero() {
   return (
     <section
+      id="home"
       aria-label="home"
-      className="relative z-[1] bg-phthalo-green-2 pt-[200px] pb-[250px] text-center text-white after:absolute after:inset-0 after:-z-10 after:bg-[url('/images/hero-bg.jpg')] after:bg-cover after:bg-center after:bg-no-repeat after:opacity-15 after:mix-blend-luminosity after:content-[''] md:pt-[224px]"
+      className="relative z-[1] overflow-x-clip bg-phthalo-green-2 pt-[200px] pb-[250px] text-center text-white after:absolute after:inset-0 after:-z-10 after:bg-[url('/images/hero-bg.jpg')] after:bg-cover after:bg-center after:bg-no-repeat after:opacity-15 after:mix-blend-luminosity after:content-[''] md:pt-[224px]"
     >
       <Container>
         <p className="text-fs-5 leading-none font-medium">

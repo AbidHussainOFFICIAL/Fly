@@ -26,7 +26,10 @@ export default function FleetPage() {
             {fleet.map((aircraft, index) => (
               <li key={aircraft.name}>
                 <Reveal delay={(index % 2) * 0.1} className="h-full">
-                  <div className="h-full border border-phthalo-green-2 bg-phthalo-green-3 p-[40px]">
+                  <div
+                    id={aircraft.slug}
+                    className="h-full border border-phthalo-green-2 bg-phthalo-green-3 p-[40px]"
+                  >
                     <p className="text-fs-8 font-semibold tracking-[2px] text-satin-sheen-gold uppercase">
                       {aircraft.category}
                     </p>

@@ -26,12 +26,19 @@ export const siteConfig = {
   },
 } as const;
 
-export const navLinks = [
-  { label: "Home", href: "/" },
-  { label: "Services", href: "/#services" },
-  { label: "Flights", href: "/flights" },
+export interface NavLink {
+  label: string;
+  href: string;
+  /** Id of the home page section this link points to, used to highlight it while scrolling. */
+  section?: string;
+}
+
+export const navLinks: NavLink[] = [
+  { label: "Home", href: "/", section: "home" },
+  { label: "Services", href: "/#services", section: "services" },
+  { label: "About", href: "/#about", section: "about" },
+  { label: "Flights", href: "/flights", section: "flights" },
   { label: "Fleet", href: "/fleet" },
-  { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
 ];
 

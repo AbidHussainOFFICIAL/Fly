@@ -1,4 +1,5 @@
 export interface Aircraft {
+  slug: string;
   name: string;
   category: string;
   seats: string;
@@ -8,6 +9,7 @@ export interface Aircraft {
 
 export const fleet: Aircraft[] = [
   {
+    slug: "pilatus-pc-12-ngx",
     name: "Pilatus PC-12 NGX",
     category: "Turboprop",
     seats: "6 to 8",
@@ -16,6 +18,7 @@ export const fleet: Aircraft[] = [
       "A quiet, efficient single-engine turboprop that suits short hops such as Islamabad to Lahore.",
   },
   {
+    slug: "cessna-citation-cj3-plus",
     name: "Cessna Citation CJ3+",
     category: "Light jet",
     seats: "6 to 7",
@@ -24,6 +27,7 @@ export const fleet: Aircraft[] = [
       "A fast, comfortable light jet for business trips between Pakistan's major cities.",
   },
   {
+    slug: "embraer-phenom-300e",
     name: "Embraer Phenom 300E",
     category: "Light jet",
     seats: "6 to 8",
@@ -32,6 +36,7 @@ export const fleet: Aircraft[] = [
       "A spacious cabin with generous baggage space, a popular choice for Karachi to Islamabad.",
   },
   {
+    slug: "bombardier-challenger-350",
     name: "Bombardier Challenger 350",
     category: "Super-midsize jet",
     seats: "8 to 9",
